@@ -64,7 +64,7 @@
                         </thead>
                         <tbody>
                         {% if history_website_load_speed !=() %}
-                            {% for url,time, speed in history_website_load_speed %}
+                            {% for url,time, speed in history_website_load_speed[::-1] %}
                                 <tr>
                                     {% if url|length < 30 %}
                                     <th scope="row" title="{{url}}">{{ url }}</th>
