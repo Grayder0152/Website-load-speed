@@ -16,6 +16,7 @@ def speed_test(urls):
             speed = requests.get(url).elapsed.total_seconds()
             websites_load_speed.append(speed)
         except:
+            speed = 'Incorrect URL'
             websites_load_speed.append('Incorrect URL')
         history_website_load_speed += ((url, str(datetime.now())[:19], speed),)
     return zip(urls, websites_load_speed)
