@@ -1,11 +1,11 @@
 import requests
 from flask import Flask, render_template, request
-
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asf3f4678jf2e34Ae'
 
-history_website_load_speed = []
+history_website_load_speed = ()
 
 
 def speed_test(urls):
@@ -17,7 +17,7 @@ def speed_test(urls):
             websites_load_speed.append(speed)
         except:
             websites_load_speed.append('Incorrect URL')
-    history_website_load_speed += tuple(zip(urls, websites_load_speed))
+        history_website_load_speed += ((url, str(datetime.now())[:19], speed),)
     return zip(urls, websites_load_speed)
 
 
@@ -27,10 +27,10 @@ def index():
         urls = []
         for name in request.form:
             urls.append(request.form[name].replace(' ', ''))
-        return render_template('index.html', test=True, urls=set(urls), speed_test=speed_test,
+        return render_template('index.html', test=True, speed_test=speed_test(set(urls)),
                                history_website_load_speed=history_website_load_speed)
     return render_template('index.html', test=False, history_website_load_speed=history_website_load_speed)
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

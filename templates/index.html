@@ -15,45 +15,13 @@
             <label>Enter your links:</label>
             <input type="url" name="url0" class="form-control" placeholder="Example: https://google.com" required>
         </div>
-        <a href="#" class="stretched-link add_inp">Add another link </a> | 
+        <a href="#" class="stretched-link add_inp">Add another link </a> |
         <a href="#" class="stretched-link del_inp">Del link</a>
         <a href="#" class="stretched-link show_history" style="float: right;">History</a>
         <div class="w-100 text-center">
             <button type="submit" class="btn btn-success mt-2">Start test</button>
         </div>
 
-        <div class="modal">
-            <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">History</h4>
-                        <button type="button" class="hide_history close">&times;</button>
-                    </div>
-                    <div style='max-height: 600px; overflow-y: scroll' class="modal-body">
-                        <table class="table table-striped mt-2">
-                            <thead>
-                            <tr>
-                                <th scope="col">URL</th>
-                                <th scope="col">Speed(s)</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for url, speed in history_website_load_speed %}
-                            <tr>
-                                {% if url|length < 30 %}
-                                <th scope="row" title="{{url}}">{{ url }}</th>
-                                {% else %}
-                                <th scope="row" title="{{url}}">{{ url[:30] }}...</th>
-                                {% endif %}
-                                <td>{{ speed }}</td>
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         {% if test %}
         <table class="table table-striped mt-2">
@@ -64,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for url, speed in speed_test(urls) %}
+            {% for url, speed in speed_test %}
             <tr>
                 {% if url|length < 30 %}
                 <th scope="row" title="{{url}}">{{ url }}</th>
@@ -78,6 +46,46 @@
         </table>
         {% endif %}
     </form>
+    <div class="modal row justify-content-center align-items-center h-100" style="background-color: #293a1091;">
+        <div class="modal-dialog modal-dialog-scrollable" style="max-width: 600px!important; margin-top:9rem">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">History</h4>
+                    <button type="button" class="hide_history close">&times;</button>
+                </div>
+                <div style='max-height: 600px; overflow-y: scroll' class="modal-body">
+                    <table class="table table-striped mt-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">URL</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Speed(s)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if history_website_load_speed !=() %}
+                            {% for url,time, speed in history_website_load_speed %}
+                                <tr>
+                                    {% if url|length < 30 %}
+                                    <th scope="row" title="{{url}}">{{ url }}</th>
+                                    {% else %}
+                                    <th scope="row" title="{{url}}">{{ url[:20] }}...</th>
+                                    {% endif %}
+                                    <td>{{ time }}</td>
+                                    <td>{{ speed }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3"><h2 class="text-center">Nothing found</h2></td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
@@ -110,6 +118,8 @@
 	$(".hide_history").click(function() {
 		$('.modal').css('display','none')
 	});
+
+
 
 
 
