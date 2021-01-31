@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Load Speed</title>
+</head>
+<body class="container" style="height: 100vh">
+<div class="row justify-content-center align-items-center h-100">
+
+    <form method="POST">
+        <h2 class="mb-5">Website loading speed</h2>
+        <div class="form-group">
+            <label>Enter your links:</label>
+            <input type="url" name="url0" class="form-control" placeholder="Example: https://google.com" required>
+        </div>
+        <a href="#" class="stretched-link add_inp">Add another link </a> | 
+        <a href="#" class="stretched-link del_inp">Del link</a>
+        <a href="#" class="stretched-link show_history" style="float: right;">History</a>
+        <div class="w-100 text-center">
+            <button type="submit" class="btn btn-success mt-2">Start test</button>
+        </div>
+
+        <div class="modal">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">History</h4>
+                        <button type="button" class="hide_history close">&times;</button>
+                    </div>
+                    <div style='max-height: 600px; overflow-y: scroll' class="modal-body">
+                        <table class="table table-striped mt-2">
+                            <thead>
+                            <tr>
+                                <th scope="col">URL</th>
+                                <th scope="col">Speed(s)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for url, speed in history_website_load_speed %}
+                            <tr>
+                                {% if url|length < 30 %}
+                                <th scope="row" title="{{url}}">{{ url }}</th>
+                                {% else %}
+                                <th scope="row" title="{{url}}">{{ url[:30] }}...</th>
+                                {% endif %}
+                                <td>{{ speed }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if test %}
+        <table class="table table-striped mt-2">
+            <thead>
+            <tr>
+                <th scope="col">URL</th>
+                <th scope="col">Speed(s)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for url, speed in speed_test(urls) %}
+            <tr>
+                {% if url|length < 30 %}
+                <th scope="row" title="{{url}}">{{ url }}</th>
+                {% else %}
+                <th scope="row" title="{{url}}">{{ url[:30] }}...</th>
+                {% endif %}
+                <td>{{ speed }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script>
+	var i = 1
+	$(".del_inp").hide()
+
+    $(".add_inp").click(function() {
+    	name = `url${i}`;
+		$('.form-group').append(`<input type="url" name=${name} class="form-control mt-2" required>`);
+		i++;
+		if ( $('.form-group').find('input').length >= 2 ) {
+			$(".del_inp").show()
+		} 
+	});
+
+	
+
+	$(".del_inp").click(function() {
+		$('.form-group input:last-child').remove();
+		if ($('.form-group').find('input').length < 2) {
+		  	$(".del_inp").hide()
+		}
+
+	});
+
+    $(".show_history").click(function() {
+		$('.modal').css('display','block')
+	});
+	$(".hide_history").click(function() {
+		$('.modal').css('display','none')
+	});
+
+
+
+
+
+</script>
+</body>
+</html>
