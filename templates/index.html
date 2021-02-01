@@ -32,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for url, speed in speed_test %}
+            {% for url, speed in url_speed %}
             <tr>
                 {% if url|length < 30 %}
                 <th scope="row" title="{{url}}">{{ url }}</th>
@@ -101,15 +101,11 @@
 			$(".del_inp").show()
 		} 
 	});
-
-	
-
 	$(".del_inp").click(function() {
 		$('.form-group input:last-child').remove();
 		if ($('.form-group').find('input').length < 2) {
 		  	$(".del_inp").hide()
 		}
-
 	});
 
     $(".show_history").click(function() {
@@ -118,12 +114,6 @@
 	$(".hide_history").click(function() {
 		$('.modal').css('display','none')
 	});
-
-
-
-
-
-
 
 </script>
 </body>
