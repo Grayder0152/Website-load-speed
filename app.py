@@ -36,7 +36,7 @@ def index():
             urls.append(request.form[name].replace(' ', ''))
         url_speed = website_load_speed(set(urls))
         return Response(stream_template('index.html', test=True, url_speed=url_speed,
-                                       history_website_load_speed=history_website_load_speed))
+                                        history_website_load_speed=history_website_load_speed))
     return render_template('index.html', test=False, history_website_load_speed=history_website_load_speed)
 
 
